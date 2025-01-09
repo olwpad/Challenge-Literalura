@@ -1,4 +1,4 @@
-# Reto Challenge Literalura
+# Challenge Literalura
 
 Este proyecto es parte de un reto de **Alura Latam**, enfocado en la creación de una aplicación para gestionar libros y autores.
 
@@ -9,7 +9,7 @@ La aplicación permite realizar las siguientes acciones:
 - Buscar libros por título.
 - Listar autores registrados.
 - Listar libros registrados.
-- Filtrar libros por idioma.
+- Listar libros por idioma.
 - Buscar autores vivos en un año específico.
 
 El proyecto utiliza **Spring Boot** para el backend y **JPA** para la persistencia de datos.
@@ -26,6 +26,7 @@ El proyecto utiliza **Spring Boot** para el backend y **JPA** para la persistenc
 - **Spring Boot**: Para la creación del backend.
 - **JPA**: Para la persistencia de datos.
 - **Git**: Para el control de versiones.
+- **PostgreSQL**: Base de datos para almacenar la información de libros y autores.
 
 ## Instalación
 
