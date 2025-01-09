@@ -4,7 +4,6 @@ package com.example.challengeliteralura.model;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "libros")
@@ -20,8 +19,23 @@ public class Libro {
     @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Autor> autores;
 
+    @Enumerated(EnumType.STRING)
+    private Idioma idioma;
+
+
 
     public Libro(DatosLibros datosLibros) {
+        System.out.println("datosLibros = " + datosLibros);
+
+        // Obtener el primer idioma de la lista (si existe)
+        String idiomaCode = datosLibros.idioma().stream()
+                .findFirst()  // Obtener el primer elemento de la lista
+                .map(Idioma::getCode)  // Obtener el código del idioma
+                .orElse(Idioma.UNKNOWN.getCode());  // Si no hay idioma, usar UNKNOWN
+
+        // Asignar el idioma utilizando la función fromCode
+        this.idioma = Idioma.fromCode(idiomaCode);
+
         this.titulo = datosLibros.titulo();
         this.descargas = datosLibros.descargas();
     }
@@ -64,5 +78,12 @@ public class Libro {
     }
 
 
+    public Idioma getIdioma() {
+        return idioma;
+    }
+
+    public void setIdioma(Idioma idioma) {
+        this.idioma = idioma;
+    }
 
 }
