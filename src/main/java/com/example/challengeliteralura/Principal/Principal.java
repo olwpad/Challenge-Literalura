@@ -42,11 +42,10 @@ public class Principal {
         var opcion = -1;
         while (opcion != 0) {
             var menu = """
-                    1 - Buscar libro
-                    2 - Buscar libros por autor
-                    3 - Buscar libros por categoría
-                    4 - Buscar libros por título
-                    5 - Mostrar libros buscados
+                    1 - Buscar libro por título
+                    2 - listar autores Registrados
+                    3 - listar Libros Registrados
+                    4 - listar libros por idioma
                     0 - Salir
                     """;
             System.out.println(menu);
@@ -54,46 +53,64 @@ public class Principal {
             teclado.nextLine();
 
             switch (opcion) {
-                case 1:
-                    buscarLibroWeb();
-                    break;
-                case 2:
-                    buscarLibrosPorAutor();
-                    break;
-                case 3:
-                    buscarLibroPorCategoria();
-                    break;
-                case 4:
-                    buscarLibroPorTitulo();
-                    break;
-                case 5:
-                    mostrarLibrosBuscados();
-                    break;
-                case 0:
-                    System.out.println("Cerrando la aplicación...");
-                    break;
-                default:
-                    System.out.println("Opción inválida");
+                case 1 -> buscarLibroPorTitulo();
+                case 2 -> listarAutoresRegistrados();
+                case 3-> listarLibrosRegistrados();
+                case 4 -> listarLibrosPorIdioma();
+                case 0 -> System.out.println("Cerrando la aplicación...");
+                default -> System.out.println("Opción inválida");
             }
         }
     }
 
-    private void mostrarLibrosBuscados() {
+    private void listarAutoresRegistrados() {
+        List<Autor> autores = repositorio.findAll().stream().flatMap(libro -> libro.getAutores().stream()).toList();
+
+        if (autores.isEmpty()) {
+            System.out.println("No hay autores registrados.");
+            return;
+        }else
+        {
+            System.out.println("============================================");
+            System.out.println("               Autores Registrados           ");
+            System.out.println("============================================");
+
+            for (Autor autor : autores) {
+                System.out.println("Nombre:    " + autor.getNombre());
+                System.out.println("Año de Nacimiento: " + autor.getAnioNacimiento());
+                System.out.println("Año de Muerte: " + autor.getAnioMuerte());
+                System.out.println("--------------------------------------------");
+            }
+        }
     }
 
-    private void buscarLibroPorTitulo() {
-
-
+    private void listarLibrosPorIdioma() {
     }
 
-    private void buscarLibroPorCategoria() {
+    private void listarLibrosRegistrados() {
+        List<Libro> libros = repositorio.findAll();
+
+        if (libros.isEmpty()) {
+            System.out.println("No hay libros registrados.");
+            return;
+        }
+
+        System.out.println("============================================");
+        System.out.println("               Libros Registrados           ");
+        System.out.println("============================================");
+
+        for (Libro libro : libros) {
+            System.out.println("Título:    " + libro.getTitulo());
+            System.out.println("Autor(es): " + String.join(", ", libro.getAutores().stream().map(Autor::getNombre).toList()));
+            System.out.println("Descargas: " + libro.getDescargas());
+            System.out.println("--------------------------------------------");
+        }
     }
 
-    private void buscarLibrosPorAutor() {
 
-    }
 
-    public void buscarLibroWeb (){
+
+    public void buscarLibroPorTitulo (){
         ResponseReq response = new ResponseReq(getDatosSerie().libros());
         // Accede a la lista de libros
         if (response.libros() != null) {
